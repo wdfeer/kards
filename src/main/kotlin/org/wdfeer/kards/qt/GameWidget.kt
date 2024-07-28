@@ -46,6 +46,6 @@ class GameWidget(state: ClientState) : QWidget() {
     }
 
     private fun addSpacer(row: QHBoxLayout) {
-        row.addSpacerItem(HExpandingSpacer())
+        row.addSpacerItem(QSpacerItem.ExpMin)
     }
 }
