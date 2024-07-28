@@ -6,6 +6,8 @@ data class PlayerState(val row: MutableList<Card>, val hand: MutableList<Card> )
             PlayerState(mutableListOf(), mutableListOf(Card.Archer, Card.Warrior, Card.Mage))
     }
 
-    fun rowToString() = row.joinToString(" ")
-    fun handToString() = hand.joinToString(" ")
+    fun playCard(index: Int) {
+        row.add(hand[index])
+        hand.removeAt(index)
+    }
 }
