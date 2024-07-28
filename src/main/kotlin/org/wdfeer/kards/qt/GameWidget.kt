@@ -1,4 +1,4 @@
-package qt
+package org.wdfeer.kards.qt
 
 import io.qt.widgets.*
 

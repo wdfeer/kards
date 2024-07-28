@@ -1,4 +1,4 @@
-package common
+package org.wdfeer.kards.common
 
 data class PlayerState(val row: MutableList<Card>, val hand: MutableList<Card> ) {
     companion object {

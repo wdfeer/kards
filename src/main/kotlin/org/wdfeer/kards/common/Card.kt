@@ -1,4 +1,4 @@
-package common
+package org.wdfeer.kards.common
 
 enum class Card(val hp: Byte, val dmg: Byte, val power: Byte) {
     Warrior(3, 1, 1),
