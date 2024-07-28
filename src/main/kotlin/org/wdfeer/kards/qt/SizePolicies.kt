@@ -10,6 +10,6 @@ import io.qt.widgets.QSizePolicy
 object SizePolicies {
     val ExpMin: QSizePolicy
         get() = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-    val MinMin: QSizePolicy
-        get() = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+    val ExpFix: QSizePolicy
+        get() = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 }

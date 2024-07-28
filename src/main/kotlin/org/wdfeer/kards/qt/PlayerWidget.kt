@@ -18,8 +18,8 @@ class PlayerWidget(displayName: String, cardCount: Int) : QWidget() {
             addWidget(nameLabel)
             addSpacerItem(spacer)
             addWidget(cardLabel)
-        })
 
-        sizePolicy = SizePolicies.MinMin
+            sizePolicy = SizePolicies.ExpFix
+        })
     }
 }
