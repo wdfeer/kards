@@ -3,7 +3,6 @@ package org.wdfeer.kards.qt
 import io.qt.widgets.*
 
 class GameWidget : QWidget() {
-
     init {
         // Set up the main layout
         val mainLayout = QVBoxLayout(this)
@@ -51,5 +50,6 @@ class GameWidget : QWidget() {
         // Set the window title and size (optional)
         windowTitle = "Card Game"
         setMinimumSize(800, 600)
+        show()
     }
 }
