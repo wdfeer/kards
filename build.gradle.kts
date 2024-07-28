@@ -17,7 +17,6 @@ repositories {
 dependencies {
     implementation("io.qtjambi:qtjambi:6.7.2")
     implementation("io.qtjambi:qtjambi-native-linux-x64:6.7.2")
-
 }
 
 kotlin {

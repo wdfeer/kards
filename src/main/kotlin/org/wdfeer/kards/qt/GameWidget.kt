@@ -2,20 +2,24 @@ package org.wdfeer.kards.qt
 
 import io.qt.widgets.*
 import org.wdfeer.kards.common.Card
-import org.wdfeer.kards.common.GameState
+import org.wdfeer.kards.common.client.ClientState
 
-class GameWidget(state: GameState) : QWidget() {
+class GameWidget(state: ClientState) : QWidget() {
     init {
         val mainLayout = QVBoxLayout(this)
 
-        val rows: List<QHBoxLayout> = buildList { repeat(4) { add(QHBoxLayout()) } }
-        val hands = listOf(rows[0], rows[3])
-        val fields = listOf(rows[1], rows[2])
+        val rows: List<WrappedBoxLayout<QHBoxLayout>> = buildList { repeat(3) {
+            val wrapper = WrappedBoxLayout(QWidget(), QHBoxLayout())
+            wrapper.widget.styleSheet = "border: 1px solid black;"
+            wrapper.widget.setLayout(wrapper.layout)
+            add(wrapper)
+        } }
+        val fields: List<QHBoxLayout> = rows.take(2).map { it.layout }
 
-        initHands(hands, state)
         initFields(fields, state)
+        initHand(rows.last().layout, state)
 
-        rows.forEach { mainLayout.addLayout(it) }
+        rows.forEach { mainLayout.addWidget(it.widget) }
 
         setLayout(mainLayout)
 
@@ -24,22 +28,20 @@ class GameWidget(state: GameState) : QWidget() {
         show()
     }
 
-    private fun initFields(fields: List<QHBoxLayout>, state: GameState) {
-        state.players.forEachIndexed { i, player ->
-            player.field.forEach {
+    private fun initFields(fields: List<QHBoxLayout>, state: ClientState) {
+        state.fields.forEachIndexed { i, f ->
+            f.forEach {
                 fields[i].addWidget(cardToWidget(it))
             }
         }
     }
 
-    private fun initHands(hands: List<QHBoxLayout>, state: GameState) {
-        hands.forEach(::addSpacer)
-        state.players.forEachIndexed { i, player ->
-            player.hand.forEach {
-                hands[i].addWidget(cardToWidget(it))
-            }
+    private fun initHand(hand: QHBoxLayout, state: ClientState) {
+        addSpacer(hand)
+        state.myCards.forEach {
+            hand.addWidget(cardToWidget(it))
         }
-        hands.forEach(::addSpacer)
+        addSpacer(hand)
     }
 
     private fun cardToWidget(card: Card): QWidget {
