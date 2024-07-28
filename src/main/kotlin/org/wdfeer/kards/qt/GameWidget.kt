@@ -9,10 +9,9 @@ class GameWidget(state: ClientState) : QWidget() {
         val mainLayout = QVBoxLayout(this)
 
         val rows: List<WrappedBoxLayout<QHBoxLayout>> = buildList { repeat(3) {
-            val wrapper = WrappedBoxLayout(QWidget(), QHBoxLayout())
-            wrapper.widget.styleSheet = "border: 1px solid black;"
-            wrapper.widget.setLayout(wrapper.layout)
-            add(wrapper)
+            add(WrappedBoxLayout(QHBoxLayout()).apply {
+                widget.styleSheet = "border: 1px solid black;"
+            })
         } }
         val fields: List<QHBoxLayout> = rows.take(2).map { it.layout }
 
