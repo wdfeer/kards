@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-
+    implementation("io.qtjambi:qtjambi:6.7.2")
 }
 
 kotlin {
