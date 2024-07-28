@@ -1,5 +1,10 @@
 plugins {
     kotlin("jvm") version "2.0.0"
+    application
+}
+
+application {
+    mainClass.set("org.wdfeer.MainKt")
 }
 
 group = "org.wdfeer"
@@ -11,6 +16,8 @@ repositories {
 
 dependencies {
     implementation("io.qtjambi:qtjambi:6.7.2")
+    implementation("io.qtjambi:qtjambi-native-linux-x64:6.7.2")
+
 }
 
 kotlin {
