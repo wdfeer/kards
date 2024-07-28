@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.wdfeer.MainKt")
+    mainClass.set("qt.MainKt")
 }
 
 group = "org.wdfeer"

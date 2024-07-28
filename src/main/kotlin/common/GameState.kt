@@ -1,4 +1,4 @@
-package game
+package common
 
 data class GameState(val players: List<PlayerState> = listOf(PlayerState.getDefault(), PlayerState.getDefault())) {
     fun print() {
