@@ -1,6 +1,7 @@
 package org.wdfeer.kards.common.client
 
-class ServerAccessor(
-    val updateState: (ClientState) -> Pair<ClientState, Boolean>,
-    val playCard: (Int) -> Unit
-)
+interface ServerAccessor {
+    fun updateState(clientState: ClientState): Pair<ClientState, Boolean>
+
+    fun playCard(cardId: Int)
+}

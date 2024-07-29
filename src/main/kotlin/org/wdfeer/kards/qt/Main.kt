@@ -1,6 +1,5 @@
 package org.wdfeer.kards.qt
 
-import io.qt.core.QTimer
 import io.qt.widgets.QApplication
 import org.wdfeer.kards.common.server.ServerState
 

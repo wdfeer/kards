@@ -4,28 +4,29 @@ import org.wdfeer.kards.common.MutableCard
 import org.wdfeer.kards.common.CardType
 import org.wdfeer.kards.common.Hand
 import org.wdfeer.kards.common.client.ClientState
-import org.wdfeer.kards.common.client.ServerAccessor
+import org.wdfeer.kards.common.client.LocalServerAccessor
 
 data class ServerState(
     val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
     val hands: List<MutableList<CardType>> = listOf(Hand.getDefault().toMutableList(), Hand.getDefault().toMutableList()),
     var turnCount: Int = 0
 ) {
-    private val playing: Int get() = turnCount % 2 + 1
+    private val playing: Int get() = (turnCount + 1) % 2
 
     fun createClientState(id: Int): ClientState = ClientState(
         if (id == 1) fields else fields.reversed(),
         hands[id],
         getOtherHand(id).size,
-        ServerAccessor({ updateClient(it, id) }) { playCard(id, it) })
+        LocalServerAccessor(this, id)
+    )
 
-    private fun updateClient(client: ClientState, player: Int): Pair<ClientState, Boolean> {
+    fun updateClient(client: ClientState, player: Int): Pair<ClientState, Boolean> {
         val newState = createClientState(player)
         return if (client.hashCode() != newState.hashCode()) Pair(newState, true)
         else Pair(client, false)
     }
 
-    private fun playCard(player: Int, card: Int) {
+    fun playCard(player: Int, card: Int) {
         if (player != playing) throw IllegalArgumentException("Player $player cannot play on turn $turnCount!")
 
         if (!(0 until hands[player].size).contains(card))
@@ -46,7 +47,8 @@ data class ServerState(
 
         turnCount++
 
-        if (turnCount % 2 == 0 && hands[0].isNotEmpty()) playCard(0, AI.chooseCardToPlay(this, 0))
+        if (playing == 0 && hands[0].isNotEmpty())
+            playCard(0, AI.chooseCardToPlay(this, 0))
     }
 
     private fun getOtherField(my: Int): MutableList<MutableCard> = fields[(my + 1) % 2]
