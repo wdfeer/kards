@@ -17,7 +17,7 @@ class CardWidget(card: Card, index: Int? = null) : QFrame() {
 
             addWidget(QLabel(strings[0] + (index?.let { " [${index + 1}]" } ?: "") ).apply {
                 styleSheet = "border: none;"
-                styleSheet += "text-decoration: underline;"
+                styleSheet += "font-size: 17px;"
             })
 
             strings -= strings[0]
