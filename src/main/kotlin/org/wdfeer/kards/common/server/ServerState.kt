@@ -5,13 +5,18 @@ import org.wdfeer.kards.common.CardType
 import org.wdfeer.kards.common.Hand
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.LocalServerAccessor
+import kotlin.random.Random
 
 data class ServerState(
     val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
     val hands: List<MutableList<CardType>> = listOf(Hand.getDefault().toMutableList(), Hand.getDefault().toMutableList()),
-    var turnCount: Int = 0
+    var turnCount: Int = Random.nextInt(2)
 ) {
     private val playing: Int get() = (turnCount + 1) % 2
+
+    init {
+        tryPlayAi()
+    }
 
     fun createClientState(id: Int): ClientState = ClientState(
         if (id == 1) fields else fields.reversed(),
@@ -47,6 +52,10 @@ data class ServerState(
 
         turnCount++
 
+        tryPlayAi()
+    }
+
+    private fun tryPlayAi() {
         if (playing == 0 && hands[0].isNotEmpty())
             playCard(0, AI.chooseCardToPlay(this, 0))
     }
