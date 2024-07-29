@@ -34,9 +34,7 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
             val scoreDiff = Field.getScoreDiff(state.fields)
             OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
             QTimer().apply {
-                timeout.connect(object {
-                    fun quit() = QApplication.quit()
-                }, "quit()")
+                timeout.connect(QApplication::quit)
                 interval = 1500
                 start()
             }
