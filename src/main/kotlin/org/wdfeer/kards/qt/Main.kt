@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
     QApplication.initialize(args)
 
     val state = ServerState()
-    GameWidget(state.createClientState(1))
+    GameWindow(state.createClientState(1))
 
     QCoreApplication.exec()
 }

@@ -4,19 +4,15 @@ import io.qt.core.Qt
 import io.qt.gui.QKeyEvent
 import io.qt.widgets.*
 import org.wdfeer.kards.common.client.ClientState
+import org.wdfeer.kards.qt.util.QSpacerItem
+import org.wdfeer.kards.qt.util.WrappedBoxLayout
 
-class GameWidget(private val state: ClientState) : QWidget() {
+abstract class GameWidget(private val state: ClientState) : QWidget() {
     private val mainLayout = QVBoxLayout(this)
-    private var widgets: List<QWidget> = emptyList()
 
     init {
-        widgets = createWidgets()
-        widgets.forEach { mainLayout.addWidget(it) }
+        createWidgets().forEach { mainLayout.addWidget(it) }
         setLayout(mainLayout)
-
-        windowTitle = "Kards"
-        setMinimumSize(800, 600)
-        show()
     }
 
     private fun createWidgets(): List<QWidget> = mutableListOf(
@@ -24,11 +20,8 @@ class GameWidget(private val state: ClientState) : QWidget() {
     ) + initCardRows().map { it.widget } + PlayerWidget("You", state.myCards.count())
 
     private fun updateCards() {
-        val newWidgets = createWidgets()
-        newWidgets.forEachIndexed { i, widget ->
-            mainLayout.replaceWidget(widgets[i], widget)
-        }
-        widgets = newWidgets
+        children().forEach { mainLayout.removeWidget(if (it is QWidget) it else return@forEach) }
+        createWidgets().forEach { mainLayout.addWidget(it) }
     }
 
     override fun keyPressEvent(event: QKeyEvent?) {

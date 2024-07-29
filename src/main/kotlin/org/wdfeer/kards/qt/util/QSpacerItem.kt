@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt
+package org.wdfeer.kards.qt.util
 
 import io.qt.widgets.QSizePolicy
 import io.qt.widgets.QSpacerItem

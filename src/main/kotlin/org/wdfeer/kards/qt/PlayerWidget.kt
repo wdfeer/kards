@@ -1,6 +1,8 @@
 package org.wdfeer.kards.qt
 
 import io.qt.widgets.*
+import org.wdfeer.kards.qt.util.QSpacerItem
+import org.wdfeer.kards.qt.util.SizePolicies
 
 class PlayerWidget(displayName: String, cardCount: Int) : QWidget() {
     init {
