@@ -5,7 +5,7 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.*
 import org.wdfeer.kards.common.client.ClientState
 
-abstract class GameWidget(private val getState: () -> ClientState) : QWidget() {
+abstract class GameWidget(private val state: ClientState) : QWidget() {
     private val mainLayout = createLayout()
     private fun createLayout(): QVBoxLayout = QVBoxLayout(this)
 
@@ -17,18 +17,18 @@ abstract class GameWidget(private val getState: () -> ClientState) : QWidget() {
     private lateinit var rows: RowsWidget
 
     private fun createWidgets(): List<QWidget> {
-        rows = RowsWidget(getState())
+        rows = RowsWidget(state)
         return mutableListOf(
-            PlayerWidget("Opponent", getState().opponentCardCount),
+            PlayerWidget("Opponent", state.opponentCardCount),
             rows,
-            PlayerWidget("You", getState().myCards.count())
+            PlayerWidget("You", state.myCards.count())
         )
     }
 
     override fun keyPressEvent(event: QKeyEvent?) {
-        getState().playCard(getDigitPressed(event?.key() ?: return)?.minus(1) ?: return)
+        state.accessor.playCard(getDigitPressed(event?.key() ?: return)?.minus(1) ?: return)
 
-        val newRows = RowsWidget(getState())
+        val newRows = RowsWidget(state)
         mainLayout.replaceWidget(rows, newRows)
         rows.setParent(null)
         rows = newRows

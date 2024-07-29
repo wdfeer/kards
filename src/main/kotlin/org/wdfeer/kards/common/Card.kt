@@ -1,9 +1,10 @@
 package org.wdfeer.kards.common
 
-enum class Card(val hp: Byte, val dmg: Byte, val power: Byte) {
-    Warrior(3, 1, 1),
-    Archer(2, 2, 1),
-    Mage(1, 3, 1);
+interface Card {
+    val name: String
+    val hp: Int
+    val dmg: Int
+    val power: Int
 
-    override fun toString(): String = "$name\n$hp/$dmg/$power"
+    fun displayString(): String = "$name\n$hp/$dmg/$power"
 }

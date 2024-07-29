@@ -29,7 +29,6 @@ class RowsWidget(private val state: ClientState) : QWidget() {
         state.fields.forEachIndexed { i, f ->
             f.forEach {
                 fields[i].addWidget(CardWidget(it))
-                fields[i].objectName = "field$i"
             }
         }
     }
@@ -39,7 +38,6 @@ class RowsWidget(private val state: ClientState) : QWidget() {
         state.myCards.forEach {
             hand.addWidget(CardWidget(it))
         }
-        hand.objectName = "myHand"
         addSpacer(hand)
     }
 
