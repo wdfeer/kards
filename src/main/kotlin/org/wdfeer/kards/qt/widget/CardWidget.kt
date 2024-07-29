@@ -7,7 +7,7 @@ import io.qt.widgets.QVBoxLayout
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.qt.util.SizePolicies
 
-class CardWidget(card: Card, index: Int) : QFrame() {
+class CardWidget(card: Card, index: Int? = null) : QFrame() {
     init {
         sizePolicy = SizePolicies.FixMin
         minimumSize = QSize(85, 120)
@@ -15,7 +15,7 @@ class CardWidget(card: Card, index: Int) : QFrame() {
         setLayout(QVBoxLayout().apply {
             val strings = card.displayString().split("\n").toMutableList()
 
-            addWidget(QLabel(strings[0] + " [${index + 1}]").apply {
+            addWidget(QLabel(strings[0] + (index?.let { " [${index + 1}]" } ?: "") ).apply {
                 styleSheet = "border: none;"
                 styleSheet += "text-decoration: underline;"
             })

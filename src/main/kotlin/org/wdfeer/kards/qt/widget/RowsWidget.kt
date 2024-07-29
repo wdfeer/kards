@@ -28,7 +28,7 @@ class RowsWidget(private val state: ClientState) : QWidget() {
     private fun initFields(fields: List<QHBoxLayout>) {
         state.fields.forEachIndexed { i, f ->
             f.forEach {
-                fields[i].addWidget(CardWidget(it, i))
+                fields[i].addWidget(CardWidget(it))
             }
         }
     }
