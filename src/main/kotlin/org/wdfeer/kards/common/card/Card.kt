@@ -1,4 +1,4 @@
-package org.wdfeer.kards.common
+package org.wdfeer.kards.common.card
 
 interface Card {
     val name: String

@@ -1,4 +1,4 @@
-package org.wdfeer.kards.common
+package org.wdfeer.kards.common.client
 
 enum class Outcome {
     Victory,

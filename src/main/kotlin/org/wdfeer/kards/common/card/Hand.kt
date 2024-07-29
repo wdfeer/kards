@@ -1,4 +1,4 @@
-package org.wdfeer.kards.common
+package org.wdfeer.kards.common.card
 
 import org.wdfeer.kards.common.util.randoms
 

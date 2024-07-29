@@ -5,8 +5,8 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
-import org.wdfeer.kards.common.Field
-import org.wdfeer.kards.common.Outcome
+import org.wdfeer.kards.common.card.Field
+import org.wdfeer.kards.common.client.Outcome
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.qt.util.Input.getDigitPressed
 

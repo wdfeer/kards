@@ -1,7 +1,7 @@
 package org.wdfeer.kards.qt.widget
 
 import io.qt.widgets.QMessageBox
-import org.wdfeer.kards.common.Outcome
+import org.wdfeer.kards.common.client.Outcome
 
 class OutcomeMessage(outcome: Outcome, diff: Int) : QMessageBox() {
     init {

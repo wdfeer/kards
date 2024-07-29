@@ -1,4 +1,4 @@
-package org.wdfeer.kards.common
+package org.wdfeer.kards.common.card
 
 object Field {
     private fun getScore(field: List<Card>): Int = field.sumOf { it.score }

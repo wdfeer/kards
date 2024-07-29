@@ -1,8 +1,8 @@
 package org.wdfeer.kards.common.server
 
-import org.wdfeer.kards.common.MutableCard
-import org.wdfeer.kards.common.CardType
-import org.wdfeer.kards.common.Hand
+import org.wdfeer.kards.common.card.MutableCard
+import org.wdfeer.kards.common.card.CardType
+import org.wdfeer.kards.common.card.Hand
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.LocalServerAccessor
 import kotlin.random.Random
@@ -44,9 +44,8 @@ data class ServerState(
     }
 
     private fun onTurnEnd(player: Int) {
-        fields[player].forEach {
-            val target = getOtherField(player).randomOrNull() ?: return@forEach
-            target.damage(it.dmg)
+        fields[player].forEach { card ->
+            card.turnEnd(getOtherField(player).filter { !it.dead })
         }
         getOtherField(player).removeIf { it.dead }
 

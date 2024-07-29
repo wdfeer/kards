@@ -4,7 +4,7 @@ import io.qt.core.QSize
 import io.qt.widgets.QFrame
 import io.qt.widgets.QLabel
 import io.qt.widgets.QVBoxLayout
-import org.wdfeer.kards.common.Card
+import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.qt.util.SizePolicies
 
 class CardWidget(card: Card, index: Int) : QFrame() {
