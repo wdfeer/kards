@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt
+package org.wdfeer.kards.qt.widget
 
 import io.qt.core.Qt
 import io.qt.gui.QKeyEvent
