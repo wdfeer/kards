@@ -1,13 +1,13 @@
 package org.wdfeer.kards.qt.widget
 
 import io.qt.core.QTimer
-import io.qt.core.Qt
 import io.qt.gui.QKeyEvent
 import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.Outcome
 import org.wdfeer.kards.common.client.ClientState
+import org.wdfeer.kards.qt.util.Input.getDigitPressed
 
 abstract class GameWidget(private var state: ClientState) : QWidget() {
     private val mainLayout = createLayout()
@@ -54,17 +54,11 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     }
 
     override fun keyPressEvent(event: QKeyEvent?) {
-        state.accessor.playCard(getDigitPressed(event?.key() ?: return)?.minus(1) ?: return)
+        val card: Int = (getDigitPressed(event?.key()) ?: return) - 1
+        if (state.myCards.size <= card) return
+
+        state.accessor.playCard(card)
 
         updateState()
-    }
-
-    private fun getDigitPressed(key: Int): Int? {
-        return when (key) {
-            Qt.Key.Key_1.value() -> return 1
-            Qt.Key.Key_2.value() -> return 2
-            Qt.Key.Key_3.value() -> return 3
-            else -> null
-        }
     }
 }
