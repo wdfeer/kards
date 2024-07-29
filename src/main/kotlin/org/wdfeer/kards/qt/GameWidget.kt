@@ -1,6 +1,5 @@
 package org.wdfeer.kards.qt
 
-import io.qt.core.QTimer
 import io.qt.core.Qt
 import io.qt.gui.QKeyEvent
 import io.qt.widgets.*
@@ -14,11 +13,6 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     private var rows: RowsWidget?
         get() = widgets[1] as RowsWidget?
         set(value) { widgets[1] = value }
-
-    private val updateTimer: QTimer = QTimer().apply {
-        timeout.connect(this@GameWidget, "updateState()")
-        start(100)
-    }
 
     init {
         createWidgets()
