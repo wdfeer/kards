@@ -6,14 +6,10 @@ enum class Outcome {
     Defeat;
 
     companion object {
-        fun getOutcome(fields: List<List<Card>>, player: Int): Outcome {
-            val scores = fields.map(Field::getScore)
-            val my = scores[player]
-            val other = scores[(player + 1) % 2]
-
-            return if (my > other)
+        fun getOutcome(scoreDiff: Int): Outcome {
+            return if (scoreDiff > 0)
                 Victory
-            else if (my < other)
+            else if (scoreDiff < 0)
                 Defeat
             else
                 Draw

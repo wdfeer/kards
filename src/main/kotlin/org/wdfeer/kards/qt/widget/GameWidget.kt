@@ -5,6 +5,7 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
+import org.wdfeer.kards.common.Field
 import org.wdfeer.kards.common.Outcome
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.qt.util.Input.getDigitPressed
@@ -30,7 +31,8 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         createWidgets()
 
         if (state.myCards.isEmpty() && state.opponentCardCount == 0) {
-            OutcomeMessage(Outcome.getOutcome(state.fields, 1))
+            val scoreDiff = Field.getScoreDiff(state.fields)
+            OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
             QTimer().apply {
                 timeout.connect(object {
                     fun quit() = QApplication.quit()
