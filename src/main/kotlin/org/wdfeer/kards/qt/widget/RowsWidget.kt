@@ -15,22 +15,14 @@ class RowsWidget(private val state: ClientState) : QWidget() {
     }
 
     private fun createCardRows(): List<WrappedBoxLayout<QHBoxLayout>> {
-        val rows: List<WrappedBoxLayout<QHBoxLayout>> = buildList { repeat(3) {
+        val rows: List<WrappedBoxLayout<QHBoxLayout>> = buildList {
+            repeat(2) { add(FieldWrapper(state.fields[it])) }
             add(WrappedBoxLayout(QHBoxLayout()).apply {
                 widget.styleSheet = "border: 1px solid black;"
             })
-        } }
-        initFields(rows.take(2).map { it.layout })
+        }
         initHand(rows.last().layout)
         return rows
-    }
-
-    private fun initFields(fields: List<QHBoxLayout>) {
-        state.fields.forEachIndexed { i, f ->
-            f.forEach {
-                fields[i].addWidget(CardWidget(it))
-            }
-        }
     }
 
     private fun initHand(hand: QHBoxLayout) {
