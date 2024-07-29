@@ -5,7 +5,7 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.*
 import org.wdfeer.kards.common.client.ClientState
 
-abstract class GameWidget(private val state: ClientState) : QWidget() {
+abstract class GameWidget(private val getState: () -> ClientState) : QWidget() {
     private val mainLayout = createLayout()
     private fun createLayout(): QVBoxLayout = QVBoxLayout(this)
 
@@ -14,20 +14,24 @@ abstract class GameWidget(private val state: ClientState) : QWidget() {
         setLayout(mainLayout)
     }
 
-    private fun createWidgets(): List<QWidget> = mutableListOf(
-        PlayerWidget("Opponent", state.opponentCardCount),
-        RowsWidget(state),
-        PlayerWidget("You", state.myCards.count())
-    )
+    private lateinit var rows: RowsWidget
 
-    private fun updateCards() {
-        children().forEach { mainLayout.removeWidget(if (it is QWidget) it else return@forEach) }
-        createWidgets().forEach { mainLayout.addWidget(it) }
+    private fun createWidgets(): List<QWidget> {
+        rows = RowsWidget(getState())
+        return mutableListOf(
+            PlayerWidget("Opponent", getState().opponentCardCount),
+            rows,
+            PlayerWidget("You", getState().myCards.count())
+        )
     }
 
     override fun keyPressEvent(event: QKeyEvent?) {
-        state.playCard(getDigitPressed(event?.key() ?: return)?.minus(1) ?: return)
-        updateCards()
+        getState().playCard(getDigitPressed(event?.key() ?: return)?.minus(1) ?: return)
+
+        val newRows = RowsWidget(getState())
+        mainLayout.replaceWidget(rows, newRows)
+        rows.setParent(null)
+        rows = newRows
     }
 
     private fun getDigitPressed(key: Int): Int? {
