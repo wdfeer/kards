@@ -6,5 +6,5 @@ interface Card {
     val dmg: Int
     val power: Int
 
-    fun displayString(): String = "$name\n$hp/$dmg/$power"
+    fun displayString(): String = "$name\nHP $hp\nATK $dmg\nVAL $power"
 }
