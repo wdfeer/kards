@@ -1,5 +1,7 @@
 package org.wdfeer.kards.common
 
+import org.wdfeer.kards.common.util.randoms
+
 object Hand {
-    fun getDefault(): List<CardType> = CardType.entries
+    fun getRandom(count: Int): List<CardType> = CardType.entries.randoms(count)
 }

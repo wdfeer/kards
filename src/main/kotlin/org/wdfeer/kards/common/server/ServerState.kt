@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 data class ServerState(
     val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
-    val hands: List<MutableList<CardType>> = listOf(Hand.getDefault().toMutableList(), Hand.getDefault().toMutableList()),
+    val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(7).toMutableList(), Hand.getRandom(7).toMutableList()),
     var turnCount: Int = Random.nextInt(2)
 ) {
     private val playing: Int get() = (turnCount + 1) % 2
