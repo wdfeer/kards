@@ -9,6 +9,7 @@ enum class CardType(override val hp: Int, override val dmg: Int, override val sc
     // Special Cards
     Spy(2, 1, 1, SpecialAbility { it.dmg++ }),
     King(2, 0, 1, SpecialAbility { it.score++ }),
+    Golem(2, 1, 0, SpecialAbility { it.hp++ }),
 
     // Constructs
     Castle(7, 0, 0),
