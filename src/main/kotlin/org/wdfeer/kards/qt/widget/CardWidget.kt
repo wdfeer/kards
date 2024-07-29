@@ -11,6 +11,7 @@ class CardWidget(card: Card, index: Int? = null) : QFrame() {
     init {
         sizePolicy = SizePolicies.FixMin
         minimumSize = QSize(85, 120)
+        styleSheet = "border: 1px solid black;"
 
         setLayout(QVBoxLayout().apply {
             val strings = card.displayString().split("\n").toMutableList()

@@ -18,7 +18,7 @@ class RowsWidget(private val state: ClientState) : QWidget() {
         val rows: List<WrappedBoxLayout<QHBoxLayout>> = buildList {
             repeat(2) { add(FieldWrapper(state.fields[it])) }
             add(WrappedBoxLayout(QHBoxLayout()).apply {
-                widget.styleSheet = "border: 1px solid black;"
+                widget.styleSheet = "border: none;"
             })
         }
         initHand(rows.last().layout)
