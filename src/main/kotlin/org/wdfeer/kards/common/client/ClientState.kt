@@ -7,5 +7,5 @@ data class ClientState(
     val fields: List<List<MutableCard>>,
     val myCards: List<CardType>,
     val opponentCardCount: Int,
-    val accessor: ServerAccessor
+    val accessor: ServerAccessor,
 )

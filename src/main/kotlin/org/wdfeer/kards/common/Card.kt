@@ -4,7 +4,7 @@ interface Card {
     val name: String
     val hp: Int
     val dmg: Int
-    val power: Int
+    val score: Int
 
-    fun displayString(): String = "$name\nHP $hp\nATK $dmg\nVAL $power"
+    fun displayString(): String = "$name\nHP $hp\nATK $dmg\nVAL $score"
 }

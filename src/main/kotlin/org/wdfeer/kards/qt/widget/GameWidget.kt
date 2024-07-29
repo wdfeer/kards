@@ -1,8 +1,12 @@
 package org.wdfeer.kards.qt.widget
 
+import io.qt.core.QTimer
 import io.qt.core.Qt
 import io.qt.gui.QKeyEvent
-import io.qt.widgets.*
+import io.qt.widgets.QApplication
+import io.qt.widgets.QVBoxLayout
+import io.qt.widgets.QWidget
+import org.wdfeer.kards.common.Outcome
 import org.wdfeer.kards.common.client.ClientState
 
 abstract class GameWidget(private var state: ClientState) : QWidget() {
@@ -24,6 +28,17 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
 
         widgets.forEach { it?.setParent(null) }
         createWidgets()
+
+        if (state.myCards.isEmpty() && state.opponentCardCount == 0) {
+            OutcomeMessage(Outcome.getOutcome(state.fields, 1))
+            QTimer().apply {
+                timeout.connect(object {
+                    fun quit() = QApplication.quit()
+                }, "quit()")
+                interval = 1500
+                start()
+            }
+        }
     }
 
     private fun createWidgets() {
