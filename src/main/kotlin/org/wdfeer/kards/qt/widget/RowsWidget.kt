@@ -28,15 +28,15 @@ class RowsWidget(private val state: ClientState) : QWidget() {
     private fun initFields(fields: List<QHBoxLayout>) {
         state.fields.forEachIndexed { i, f ->
             f.forEach {
-                fields[i].addWidget(CardWidget(it))
+                fields[i].addWidget(CardWidget(it, i))
             }
         }
     }
 
     private fun initHand(hand: QHBoxLayout) {
         addSpacer(hand)
-        state.myCards.forEach {
-            hand.addWidget(CardWidget(it))
+        state.myCards.forEachIndexed { i, card ->
+            hand.addWidget(CardWidget(card, i))
         }
         addSpacer(hand)
     }

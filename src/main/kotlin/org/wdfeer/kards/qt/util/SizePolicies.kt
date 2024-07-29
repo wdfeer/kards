@@ -12,4 +12,10 @@ object SizePolicies {
         get() = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
     val ExpFix: QSizePolicy
         get() = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+    val FixMin: QSizePolicy
+        get() = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+    val MinFix: QSizePolicy
+        get() = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+    val MinMin: QSizePolicy
+        get() = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
 }
