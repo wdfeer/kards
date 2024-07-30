@@ -27,8 +27,8 @@ data class ServerState(
 
     fun createClientState(id: Int): ClientState = ClientState(
         if (id == 1) fields else fields.reversed(),
-        Me(hands[id]),
-        Opponent(getOtherHand(id).size),
+        Me(hands[id], playing == id),
+        Opponent(getOtherHand(id).size, playing == id),
         LocalServerAccessor(this, id)
     )
 

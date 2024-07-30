@@ -28,7 +28,11 @@ class RowsWidget(private val state: ClientState) : QWidget() {
     private fun initHand(hand: QHBoxLayout) {
         addSpacer(hand)
         state.me.hand.forEachIndexed { i, card ->
-            hand.addWidget(CardWidget(card, i) { (parentWidget() as GameWidget).playCard(i) })
+            hand.addWidget(CardWidget(card, i) {
+                val gameWidget = parentWidget() as GameWidget
+                if (gameWidget.canPlayCard(i))
+                    gameWidget.playCard(i)
+            })
         }
         addSpacer(hand)
     }

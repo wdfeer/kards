@@ -62,7 +62,12 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         }
     }
 
+    fun canPlayCard(card: Int): Boolean = state.me.playing && state.me.hand.size > card
+
+    /** @throws IndexOutOfBoundsException
+     * @throws IllegalStateException */
     fun playCard(card: Int) {
+        if (!state.me.playing) throw IllegalStateException("The player may not play a card right now!")
         if (state.me.hand.size <= card) throw IndexOutOfBoundsException("Card $card not found! Hand size: ${state.me.hand.size}")
 
         state.accessor.playCard(card)
