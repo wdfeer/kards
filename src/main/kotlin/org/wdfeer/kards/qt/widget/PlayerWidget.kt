@@ -6,15 +6,13 @@ import org.wdfeer.kards.qt.util.SizePolicies
 
 class PlayerWidget(displayName: String, playing: Boolean, cardCount: Int) : QWidget() {
     init {
-        val spacer = QSpacerItem.ExpMin
-
         setLayout(QHBoxLayout().apply {
             addWidget(QLabel(displayName))
-            addSpacerItem(spacer)
+            addSpacerItem(QSpacerItem.ExpMin)
 
             if (playing) {
                 addWidget(QLabel("PLAYING"))
-                addSpacerItem(spacer)
+                addSpacerItem(QSpacerItem.ExpMin)
             }
 
             addWidget(QLabel("$cardCount Cards"))
