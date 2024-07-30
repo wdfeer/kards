@@ -47,7 +47,7 @@ data class ServerState(
         fields[player].forEach { card ->
             card.turnEnd(getOtherField(player).filter { !it.dead })
         }
-        getOtherField(player).removeIf { it.dead }
+        fields.forEach { field -> field.removeIf { it.dead } }
 
         turnCount++
 
