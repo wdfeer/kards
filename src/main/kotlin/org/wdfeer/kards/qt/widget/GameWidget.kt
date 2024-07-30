@@ -77,6 +77,7 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
 
     override fun keyPressEvent(event: QKeyEvent?) {
         val card: Int = (getDigitPressed(event?.key()) ?: return) - 1
-        playCard(card)
+
+        if (canPlayCard(card)) playCard(card)
     }
 }
