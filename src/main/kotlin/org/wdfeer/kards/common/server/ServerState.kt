@@ -8,14 +8,15 @@ import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.LocalServerAccessor
 import org.wdfeer.kards.common.client.Me
 import org.wdfeer.kards.common.client.Opponent
+import org.wdfeer.kards.common.server.ai.AI
 import kotlin.random.Random
 
 data class ServerState(
     val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
-    val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(7).toMutableList(), Hand.getRandom(7).toMutableList()),
-    var turnCount: Int = Random.nextInt(2)
+    val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(7).toMutableList(), Hand.getRandom(7).toMutableList())
 ) {
-    private val playing: Int get() = (turnCount + 1) % 2
+    private var playing = Random.nextInt(2)
+    private fun flipWhoPlaying() { playing = 1 - playing }
 
     init {
         if (canPlayAi())
@@ -25,7 +26,7 @@ data class ServerState(
     fun createClientState(id: Int): ClientState = ClientState(
         if (id == 1) fields else fields.reversed(),
         Me(hands[id], playing == id),
-        Opponent(getOtherHand(id).size, playing != id),
+        Opponent(hands[1 - id].size, playing != id),
         LocalServerAccessor(this, id)
     )
 
@@ -36,24 +37,21 @@ data class ServerState(
     }
 
     fun playCard(player: Int, card: Int) {
-        if (player != playing) throw IllegalArgumentException("Player $player cannot play on turn $turnCount!")
+        if (player != playing) throw IllegalArgumentException("Player $player cannot play at this turn!")
 
         if (!(0 until hands[player].size).contains(card))
             throw IndexOutOfBoundsException("Player $player does not have a card with index $card! Hand size: ${hands[player].size}")
 
-        fields[player].add(MutableCard(hands[player][card]))
+        GameRules.playCard(fields, player, hands[player][card])
         hands[player].removeAt(card)
 
         onTurnEnd(player)
     }
 
     private fun onTurnEnd(player: Int) {
-        fields[player].forEach { card ->
-            card.turnEnd(getOtherField(player).filter { !it.dead })
-        }
-        fields.forEach { field -> field.removeIf { it.dead } }
+        GameRules.onTurnEnd(fields, player)
 
-        turnCount++
+        flipWhoPlaying()
 
         if (canPlayAi())
             ServerCoroutine.launch {
@@ -70,7 +68,4 @@ data class ServerState(
             playCard(0, AI.chooseCardToPlay(this, 0))
         else throw IllegalStateException("AI cannot make a turn right now!")
     }
-
-    private fun getOtherField(my: Int): MutableList<MutableCard> = fields[(my + 1) % 2]
-    private fun getOtherHand(my: Int): MutableList<CardType> = hands[(my + 1) % 2]
 }

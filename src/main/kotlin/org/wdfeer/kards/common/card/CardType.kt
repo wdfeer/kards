@@ -1,6 +1,6 @@
 package org.wdfeer.kards.common.card
 
-enum class CardType(override val hp: Int, override val dmg: Int, override val score: Int, val special: SpecialAbility? = null) : Card {
+enum class CardType(override val hp: Int, override val dmg: Int, override val score: Int, private val special: SpecialAbility? = null) : Card {
     // Base
     Warrior(4, 1, 1),
     Archer(3, 2, 1),
@@ -13,5 +13,7 @@ enum class CardType(override val hp: Int, override val dmg: Int, override val sc
     Golem(3, 1, 0, SpecialAbility { it.hp++ }),
     Spy(3, 1, 1, SpecialAbility { it.dmg++ }),
     King(3, 0, 1, SpecialAbility { it.score++ }),
-    Queen(1,1,1, SpecialAbility { it.hp++; it.dmg++; it.score++ }),
+    Queen(1,1,1, SpecialAbility { it.hp++; it.dmg++; it.score++ });
+
+    override fun getSpecial(): SpecialAbility? = special
 }
