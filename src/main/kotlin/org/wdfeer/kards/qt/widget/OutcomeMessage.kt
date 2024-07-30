@@ -1,7 +1,5 @@
 package org.wdfeer.kards.qt.widget
 
-import io.qt.core.QTimer
-import io.qt.widgets.QApplication
 import io.qt.widgets.QMessageBox
 import org.wdfeer.kards.common.client.Outcome
 
@@ -20,12 +18,5 @@ class OutcomeMessage(outcome: Outcome, diff: Int) : QMessageBox() {
         }
 
         show()
-
-
-        QTimer().apply {
-            timeout.connect(QApplication::quit)
-            singleShot = true
-            start(2000)
-        }
     }
 }

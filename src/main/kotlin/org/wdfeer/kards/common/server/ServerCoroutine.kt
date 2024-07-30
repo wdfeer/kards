@@ -5,7 +5,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 object ServerCoroutine {
-    private val scope = CoroutineScope(Job())
+    val scope = CoroutineScope(Job())
 
     fun launch(action: suspend () -> Unit) = scope.launch { action() }
 }

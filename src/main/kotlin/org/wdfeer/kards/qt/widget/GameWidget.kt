@@ -2,11 +2,12 @@ package org.wdfeer.kards.qt.widget
 
 import io.qt.core.QTimer
 import io.qt.gui.QKeyEvent
+import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.card.Field
-import org.wdfeer.kards.common.client.Outcome
 import org.wdfeer.kards.common.client.ClientState
+import org.wdfeer.kards.common.client.Outcome
 import org.wdfeer.kards.qt.util.Input.getDigitPressed
 
 abstract class GameWidget(private var state: ClientState) : QWidget() {
@@ -21,21 +22,17 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     init {
         createWidgets()
         setLayout(mainLayout)
-
-        createUpdateTimer()
     }
 
-    private fun createUpdateTimer() {
-        QTimer().apply {
-            timeout.connect(::updateState)
-            start(1000)
-        }
+    private val updateTimer = QTimer().apply {
+        timeout.connect(::updateState)
+        start(1000)
     }
 
     private var outcomeMessage: OutcomeMessage? = null
 
     private fun updateState() {
-        this.state = state.accessor.updateState(state).first
+        state = state.accessor.updateState(state).first
 
         widgets.forEach { it?.setParent(null) }
         createWidgets()
@@ -43,7 +40,15 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         if (outcomeMessage == null && state.me.hand.isEmpty() && state.opponent.handSize == 0) {
             val scoreDiff = Field.getScoreDiff(state.fields)
             outcomeMessage = OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
+            quitTimer.start(2000)
         }
+    }
+
+    private val quitTimer = QTimer().apply { timeout.connect(::quit) }
+
+    private fun quit() {
+        updateTimer.stop()
+        QApplication.quit()
     }
 
     private fun createWidgets() {
