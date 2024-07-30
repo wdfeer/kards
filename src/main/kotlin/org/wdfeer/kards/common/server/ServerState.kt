@@ -5,6 +5,8 @@ import org.wdfeer.kards.common.card.CardType
 import org.wdfeer.kards.common.card.Hand
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.LocalServerAccessor
+import org.wdfeer.kards.common.client.Me
+import org.wdfeer.kards.common.client.Opponent
 import kotlin.random.Random
 
 data class ServerState(
@@ -15,13 +17,14 @@ data class ServerState(
     private val playing: Int get() = (turnCount + 1) % 2
 
     init {
-        tryPlayAi()
+        if (canPlayAi())
+            playAi()
     }
 
     fun createClientState(id: Int): ClientState = ClientState(
         if (id == 1) fields else fields.reversed(),
-        hands[id],
-        getOtherHand(id).size,
+        Me(hands[id]),
+        Opponent(getOtherHand(id).size),
         LocalServerAccessor(this, id)
     )
 
@@ -51,12 +54,17 @@ data class ServerState(
 
         turnCount++
 
-        tryPlayAi()
+        if (canPlayAi())
+            playAi()
     }
 
-    private fun tryPlayAi() {
-        if (playing == 0 && hands[0].isNotEmpty())
+    private fun canPlayAi() = playing == 0 && hands[0].isNotEmpty()
+
+    /** @throws IllegalStateException */
+    private fun playAi() {
+        if (canPlayAi())
             playCard(0, AI.chooseCardToPlay(this, 0))
+        else throw IllegalStateException("AI cannot make a turn right now!")
     }
 
     private fun getOtherField(my: Int): MutableList<MutableCard> = fields[(my + 1) % 2]

@@ -30,13 +30,13 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         widgets.forEach { it?.setParent(null) }
         createWidgets()
 
-        if (state.myCards.isEmpty() && state.opponentCardCount == 0) {
+        if (state.me.hand.isEmpty() && state.opponent.handSize == 0) {
             val scoreDiff = Field.getScoreDiff(state.fields)
             OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
             QTimer().apply {
                 timeout.connect(QApplication::quit)
-                interval = 1500
-                start()
+                singleShot = true
+                start(2000)
             }
         }
     }
@@ -44,9 +44,9 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     private fun createWidgets() {
         rows = RowsWidget(state)
         listOf(
-            PlayerWidget("Opponent", state.opponentCardCount),
+            PlayerWidget(state.opponent.name, state.opponent.handSize),
             rows!!,
-            PlayerWidget("You", state.myCards.count())
+            PlayerWidget("You", state.me.hand.count())
         ).forEachIndexed { i, widget ->
             widgets[i] = widget
             mainLayout.addWidget(widget)
@@ -54,7 +54,7 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     }
 
     fun playCard(card: Int) {
-        if (state.myCards.size <= card) throw IndexOutOfBoundsException("Card $card not found! Hand size: ${state.myCards.size}")
+        if (state.me.hand.size <= card) throw IndexOutOfBoundsException("Card $card not found! Hand size: ${state.me.hand.size}")
 
         state.accessor.playCard(card)
 
