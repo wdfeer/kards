@@ -1,9 +1,6 @@
 package org.wdfeer.kards.common.server
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.wdfeer.kards.common.card.CardType
 import org.wdfeer.kards.common.card.Hand
 import org.wdfeer.kards.common.card.MutableCard
@@ -59,7 +56,7 @@ data class ServerState(
         turnCount++
 
         if (canPlayAi())
-            CoroutineScope(Job()).launch {
+            ServerCoroutine.launch {
                 delay(1000)
                 playAi()
             }
