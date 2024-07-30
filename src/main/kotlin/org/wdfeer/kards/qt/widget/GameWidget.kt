@@ -2,7 +2,6 @@ package org.wdfeer.kards.qt.widget
 
 import io.qt.core.QTimer
 import io.qt.gui.QKeyEvent
-import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.card.Field
@@ -33,20 +32,17 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         }
     }
 
+    private var outcomeMessage: OutcomeMessage? = null
+
     private fun updateState() {
         this.state = state.accessor.updateState(state).first
 
         widgets.forEach { it?.setParent(null) }
         createWidgets()
 
-        if (state.me.hand.isEmpty() && state.opponent.handSize == 0) {
+        if (outcomeMessage == null && state.me.hand.isEmpty() && state.opponent.handSize == 0) {
             val scoreDiff = Field.getScoreDiff(state.fields)
-            OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
-            QTimer().apply {
-                timeout.connect(QApplication::quit)
-                singleShot = true
-                start(2000)
-            }
+            outcomeMessage = OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
         }
     }
 
