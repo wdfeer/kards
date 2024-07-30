@@ -4,22 +4,20 @@ import io.qt.widgets.*
 import org.wdfeer.kards.qt.util.QSpacerItem
 import org.wdfeer.kards.qt.util.SizePolicies
 
-class PlayerWidget(displayName: String, cardCount: Int) : QWidget() {
+class PlayerWidget(displayName: String, playing: Boolean, cardCount: Int) : QWidget() {
     init {
-        val nameLabel = QLabel(displayName).apply {
-            styleSheet = "text-align: left;"
-        }
-
         val spacer = QSpacerItem.ExpMin
 
-        val cardLabel = QLabel("$cardCount Cards").apply {
-            styleSheet = "text-align: right;"
-        }
-
         setLayout(QHBoxLayout().apply {
-            addWidget(nameLabel)
+            addWidget(QLabel(displayName))
             addSpacerItem(spacer)
-            addWidget(cardLabel)
+
+            if (playing) {
+                addWidget(QLabel("PLAYING"))
+                addSpacerItem(spacer)
+            }
+
+            addWidget(QLabel("$cardCount Cards"))
 
             sizePolicy = SizePolicies.ExpFix
         })

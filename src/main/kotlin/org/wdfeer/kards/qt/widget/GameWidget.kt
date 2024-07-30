@@ -49,9 +49,9 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     private fun createWidgets() {
         rows = RowsWidget(state)
         listOf(
-            PlayerWidget(state.opponent.name, state.opponent.handSize),
+            PlayerWidget(state.opponent.name, state.opponent.playing, state.opponent.handSize),
             rows!!,
-            PlayerWidget("You", state.me.hand.count())
+            PlayerWidget("You", state.me.playing, state.me.hand.count())
         ).forEachIndexed { i, widget ->
             widgets[i] = widget
             mainLayout.addWidget(widget)
