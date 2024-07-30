@@ -1,8 +1,12 @@
 package org.wdfeer.kards.common.server
 
-import org.wdfeer.kards.common.card.MutableCard
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.wdfeer.kards.common.card.CardType
 import org.wdfeer.kards.common.card.Hand
+import org.wdfeer.kards.common.card.MutableCard
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.LocalServerAccessor
 import org.wdfeer.kards.common.client.Me
@@ -55,7 +59,10 @@ data class ServerState(
         turnCount++
 
         if (canPlayAi())
-            playAi()
+            CoroutineScope(Job()).launch {
+                delay(1000)
+                playAi()
+            }
     }
 
     private fun canPlayAi() = playing == 0 && hands[0].isNotEmpty()

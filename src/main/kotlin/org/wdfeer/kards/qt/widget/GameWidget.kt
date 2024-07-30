@@ -22,6 +22,15 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     init {
         createWidgets()
         setLayout(mainLayout)
+
+        createUpdateTimer()
+    }
+
+    private fun createUpdateTimer() {
+        QTimer().apply {
+            timeout.connect(::updateState)
+            start(1000)
+        }
     }
 
     private fun updateState() {
