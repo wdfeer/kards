@@ -53,12 +53,16 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         }
     }
 
-    override fun keyPressEvent(event: QKeyEvent?) {
-        val card: Int = (getDigitPressed(event?.key()) ?: return) - 1
-        if (state.myCards.size <= card) return
+    fun playCard(card: Int) {
+        if (state.myCards.size <= card) throw IndexOutOfBoundsException("Card $card not found! Hand size: ${state.myCards.size}")
 
         state.accessor.playCard(card)
 
         updateState()
+    }
+
+    override fun keyPressEvent(event: QKeyEvent?) {
+        val card: Int = (getDigitPressed(event?.key()) ?: return) - 1
+        playCard(card)
     }
 }
