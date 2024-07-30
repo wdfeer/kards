@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
     implementation("io.qtjambi:qtjambi:6.7.2")
     implementation("io.qtjambi:qtjambi-native-linux-x64:6.7.2")
 }
