@@ -6,6 +6,7 @@ import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.qt.util.QSpacerItem
 import org.wdfeer.kards.qt.util.WrappedBoxLayout
+import org.wdfeer.kards.qt.widget.card.HandCardWidget
 
 class RowsWidget(private val state: ClientState) : QWidget() {
     init {
@@ -28,7 +29,7 @@ class RowsWidget(private val state: ClientState) : QWidget() {
     private fun initHand(hand: QHBoxLayout) {
         addSpacer(hand)
         state.me.hand.forEachIndexed { i, card ->
-            hand.addWidget(CardWidget(card, i) {
+            hand.addWidget(HandCardWidget(card, i) {
                 val gameWidget = parentWidget() as GameWidget
                 if (gameWidget.canPlayCard(i))
                     gameWidget.playCard(i)
