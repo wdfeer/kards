@@ -7,21 +7,13 @@ import org.wdfeer.kards.common.server.GameRules
 import org.wdfeer.kards.common.server.ServerState
 import kotlin.math.roundToInt
 
-typealias CardEvaluator = (state: ServerState, card: Card, player: Int) -> Int
+interface AiAlgorithm {
+    fun evaluate(presentState: ServerState, cardToPlay: Card, player: Int): Int
 
-object Algorithms {
-    val zero: CardEvaluator = { _, _, _ -> 0}
-
-    val greedy: CardEvaluator = { state, card, player ->
-        val newBoard = simulateBoardState(state.fields, player, card)
-        evaluateBoardState(newBoard, player)
+    fun averaged(iterations: Int): (presentState: ServerState, cardToPlay: Card, player: Int) -> Int = { state, card, player ->
+        buildList { repeat(iterations) { add(evaluate(state, card, player)) } }.average().roundToInt()
     }
 
-    val recursive: CardEvaluator = RecursiveAlgorithm::evaluateCard
-
-    fun averaged(evaluator: CardEvaluator, iterations: Int): CardEvaluator = { state, card, player ->
-        buildList { repeat(iterations) { add(evaluator(state, card, player)) } }.average().roundToInt()
-    }
 
 
     fun simulateBoardState(board: List<List<Card>>, player: Int, cardToPlay: Card): List<MutableList<MutableCard>> {

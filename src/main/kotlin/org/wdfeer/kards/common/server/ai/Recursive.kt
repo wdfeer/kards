@@ -2,12 +2,8 @@ package org.wdfeer.kards.common.server.ai
 
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.common.server.ServerState
-import org.wdfeer.kards.common.server.ai.Algorithms.evaluateBoardState
-import org.wdfeer.kards.common.server.ai.Algorithms.simulateBoardState
 
-object RecursiveAlgorithm {
-    private data class SimpleState(val fields: List<List<Card>>, val hands: List<List<Card>>)
-
+class Recursive : AiAlgorithm {
     private fun getStatePostPlay(present: SimpleState, player: Int, cardIndex: Int) =
         SimpleState(
             present.fields.apply { simulateBoardState(this, player, present.hands[player][cardIndex]) },
@@ -38,13 +34,12 @@ object RecursiveAlgorithm {
         }
     }
 
-
-    fun evaluateCard(presentState: ServerState, card: Card, player: Int): Int {
+    override fun evaluate(presentState: ServerState, cardToPlay: Card, player: Int): Int {
         val simpleState = SimpleState(presentState.fields, presentState.hands)
         return simulateFarFutures(
             simpleState,
             player,
-            simpleState.hands[player].indexOf(card),
+            simpleState.hands[player].indexOf(cardToPlay),
             10
         ).maxOfOrNull { evaluateBoardState(it.fields, player) } ?: 0
     }
