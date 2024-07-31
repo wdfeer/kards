@@ -26,6 +26,19 @@ object Logger { // TODO: save the stdout to a log file
     }
 
     fun Any.info(str: String) = println("[$time][INFO] ${getCallerString(this)}: $str")
-    fun Any.warn(str: String) = println("[$time][WARN] ${getCallerString(this)}: $str")
-    fun Any.error(str: String) = println("[$time][ERROR] ${getCallerString(this)}: $str")
+    fun Any.warn(str: String) = printlnColor("[$time][WARN] ${getCallerString(this)}: $str", Color.YELLOW)
+    fun Any.error(str: String) = printlnColor("[$time][ERROR] ${getCallerString(this)}: $str", Color.RED)
+
+    private fun printlnColor(str: String, color: Color) {
+        val colorCode = when (color) {
+            Color.YELLOW -> "\u001B[33m"
+            Color.RED -> "\u001B[31m"
+        }
+        println("$colorCode$str\u001B[0m")
+    }
+
+    private enum class Color {
+        YELLOW,
+        RED
+    }
 }
