@@ -1,4 +1,4 @@
-package org.wdfeer.kards
+package org.wdfeer.kards.qt
 
 import io.qt.gui.QFontDatabase
 import io.qt.widgets.QApplication

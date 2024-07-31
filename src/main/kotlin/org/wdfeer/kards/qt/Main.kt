@@ -1,7 +1,6 @@
 package org.wdfeer.kards.qt
 
 import io.qt.widgets.QApplication
-import org.wdfeer.kards.FontLoader
 import org.wdfeer.kards.qt.widget.menu.MenuWindow
 
 fun main(args: Array<String>) {
