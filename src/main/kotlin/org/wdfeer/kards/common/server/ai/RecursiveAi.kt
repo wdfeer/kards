@@ -3,7 +3,7 @@ package org.wdfeer.kards.common.server.ai
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.common.server.ServerState
 
-class Recursive : AiAlgorithm { // TODO: Make it not crash the game for some reason
+internal class RecursiveAi : AiAlgorithm { // TODO: Make it not crash the game for some reason
     private fun getStatePostPlay(present: SimpleState, player: Int, cardIndex: Int) =
         SimpleState(
             present.fields.apply { simulateBoardState(this, player, present.hands[player][cardIndex]) },

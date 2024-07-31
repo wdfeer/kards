@@ -7,7 +7,7 @@ import org.wdfeer.kards.common.server.GameRules
 import org.wdfeer.kards.common.server.ServerState
 import kotlin.math.roundToInt
 
-interface AiAlgorithm {
+internal interface AiAlgorithm {
     fun evaluate(presentState: ServerState, cardToPlay: Card, player: Int): Int
 
     fun averaged(iterations: Int): (presentState: ServerState, cardToPlay: Card, player: Int) -> Int = { state, card, player ->
