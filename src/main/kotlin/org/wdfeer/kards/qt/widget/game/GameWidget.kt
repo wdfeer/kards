@@ -27,6 +27,8 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
     private val updateTimer = QTimer().apply {
         timeout.connect(::updateState)
         start(1000)
+
+        QApplication.instance()?.aboutToQuit?.connect(this::stop)
     }
 
     private var outcomeMessage: OutcomeMessage? = null
@@ -40,15 +42,7 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         if (outcomeMessage == null && state.me.hand.isEmpty() && state.opponent.handSize == 0) {
             val scoreDiff = Field.getScoreDiff(state.fields)
             outcomeMessage = OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
-            quitTimer.start(2000)
         }
-    }
-
-    private val quitTimer = QTimer().apply { timeout.connect(::quit) }
-
-    private fun quit() {
-        updateTimer.stop()
-        QApplication.quit()
     }
 
     private fun createWidgets() {

@@ -2,6 +2,7 @@ package org.wdfeer.kards.qt
 
 import io.qt.gui.QFontDatabase
 import io.qt.widgets.QApplication
+import org.wdfeer.kards.common.Logger
 import java.io.InputStream
 
 object FontLoader {
@@ -19,14 +20,15 @@ object FontLoader {
                 if (fontFamilies.isNotEmpty()) {
                     fontFamily = fontFamilies[0]
                     QApplication.setFont(fontFamily)
+                    Logger.info("Font \"$fontFamily\" loaded")
                 } else {
-                    error("No font families found")
+                    Logger.error("No font families found")
                 }
             } else {
-                error("Failed to load font")
+                Logger.error("Failed to load font")
             }
         } else {
-            error("Font resource not found")
+            Logger.error("Font resource not found")
         }
     }
 }

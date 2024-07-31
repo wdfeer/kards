@@ -2,6 +2,7 @@ package org.wdfeer.kards.qt.widget.menu
 
 import io.qt.widgets.*
 import kotlinx.coroutines.cancel
+import org.wdfeer.kards.common.Logger
 import org.wdfeer.kards.qt.FontLoader
 import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
@@ -11,6 +12,8 @@ import org.wdfeer.kards.qt.widget.game.GameWindow
 
 class MenuWindow : QWidget() {
     init {
+        Logger.info("Menu Window initializing")
+        
         styleSheet = "font-family: ${FontLoader.fontFamily};"
 
         windowTitle = "Kards"
