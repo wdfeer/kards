@@ -3,7 +3,7 @@ package org.wdfeer.kards.common.server.ai
 import org.wdfeer.kards.common.server.ServerState
 
 object AI {
-    private var difficulty: AiDifficulty
+    var difficulty: AiDifficulty
         get() = AiDifficulty.entries.first { it.algorithm == algorithm }
         set(value) { algorithm = value.algorithm }
 
