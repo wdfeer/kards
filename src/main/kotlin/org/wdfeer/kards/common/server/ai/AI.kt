@@ -1,6 +1,10 @@
 package org.wdfeer.kards.common.server.ai
 
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.runBlocking
 import org.wdfeer.kards.common.Logger.logTime
+import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
 
 object AI {
@@ -18,14 +22,29 @@ object AI {
 
     fun chooseCardToPlay(state: ServerState, player: Int): Int {
         var cardIndex: Int = -1
+
+        val jobs = mutableListOf<Job>()
+
+        val hand = state.hands[player]
+
+        val results: Array<Int> = Array(hand.size) { 0 }
+
         logTime(algorithm, {"Total evaluation ET = $it ms"}) {
-            val values = state.hands[player].mapIndexed {i, card ->
-                logTime(algorithm, {"Card #$i evaluation ET = $it ms"}) {
-                    algorithm.evaluate(state, card, player)
-                }
+            hand.forEachIndexed { index, card ->
+                jobs.add(ServerCoroutine.launch {
+                    logTime(algorithm, {"Card #$index evaluation ET = $it ms"}) {
+                        results[index] = algorithm.evaluate(state, card, player)
+                    }
+                })
             }
-            cardIndex = values.indexOf(values.max())
+
+            runBlocking {
+                jobs.joinAll()
+            }
+
+            cardIndex = results.indexOf(results.max())
         }
+
 
         return cardIndex
     }
