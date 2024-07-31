@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget
+package org.wdfeer.kards.qt.widget.game
 
 import io.qt.widgets.QHBoxLayout
 import io.qt.widgets.QVBoxLayout
@@ -6,7 +6,7 @@ import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.qt.util.QSpacerItem
 import org.wdfeer.kards.qt.util.WrappedBoxLayout
-import org.wdfeer.kards.qt.widget.card.HandCardWidget
+import org.wdfeer.kards.qt.widget.game.card.HandCardWidget
 
 class RowsWidget(private val state: ClientState) : QWidget() {
     init {

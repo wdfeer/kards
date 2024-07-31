@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget
+package org.wdfeer.kards.qt.widget.game
 
 import io.qt.widgets.*
 import org.wdfeer.kards.qt.util.QSpacerItem

@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget
+package org.wdfeer.kards.qt.widget.game
 
 import io.qt.widgets.QMessageBox
 import org.wdfeer.kards.common.client.Outcome

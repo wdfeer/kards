@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget.card
+package org.wdfeer.kards.qt.widget.game.card
 
 import io.qt.core.QSize
 import io.qt.widgets.QFrame

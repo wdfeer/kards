@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget.card
+package org.wdfeer.kards.qt.widget.game.card
 
 import org.wdfeer.kards.common.card.Card
 

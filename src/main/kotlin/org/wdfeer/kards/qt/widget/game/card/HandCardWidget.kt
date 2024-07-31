@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget.card
+package org.wdfeer.kards.qt.widget.game.card
 
 import io.qt.core.QEvent
 import io.qt.gui.QEnterEvent

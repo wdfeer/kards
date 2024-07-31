@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget
+package org.wdfeer.kards.qt.widget.game
 
 import org.wdfeer.kards.common.client.ClientState
 
