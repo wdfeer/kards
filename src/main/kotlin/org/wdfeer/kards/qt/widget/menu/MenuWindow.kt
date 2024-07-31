@@ -6,11 +6,12 @@ import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
 import org.wdfeer.kards.common.server.ai.AI
 import org.wdfeer.kards.common.server.ai.AiDifficulty
+import org.wdfeer.kards.qt.fontFamily
 import org.wdfeer.kards.qt.widget.game.GameWindow
 
 class MenuWindow : QWidget() {
     init {
-        styleSheet = "font-family: ComicShannsMono Nerd Font;"
+        styleSheet = "font-family: $fontFamily;"
 
         windowTitle = "Kards"
         setMinimumSize(200, 200)
