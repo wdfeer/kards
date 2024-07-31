@@ -35,7 +35,7 @@ internal class RecursiveAi(private val depth: Int) : AiAlgorithm {
     }
 
     override fun evaluate(presentState: ServerState, cardToPlay: Card, player: Int): Int {
-        val simpleState = SimpleState(presentState.fields, presentState.hands)
+        val simpleState = SimpleState(presentState)
 
         val result = simulateFarFutures(
             simpleState,
