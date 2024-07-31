@@ -13,7 +13,7 @@ enum class CardType(override val hp: Int, override val dmg: Int, override val sc
     Golem(3, 1, 0, SpecialAbility { it.hp++ }),
     Spy(3, 1, 1, SpecialAbility { it.dmg++ }),
     King(3, 0, 1, SpecialAbility { it.score++ }),
-    Queen(1,1,1, SpecialAbility { it.hp++; it.dmg++; it.score++ });
+    Queen(1,1,1, SpecialAbility { it.hp++; it.dmg++ });
 
     override fun getSpecial(): SpecialAbility? = special
 }
