@@ -7,28 +7,24 @@ import io.qt.widgets.QVBoxLayout
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.qt.util.SizePolicies
 
-abstract class CardWidget(card: Card, ) : QFrame() {
+abstract class CardWidget(card: Card) : QFrame() {
+    protected val labels: List<QLabel> = getLabels(card.displayString().split("\n"))
+
     init {
         sizePolicy = SizePolicies.FixMin
         minimumSize = QSize(85, 120)
         styleSheet = "border: 1px solid black;"
 
         setLayout(QVBoxLayout().apply {
-            val strings = card.displayString().split("\n").toMutableList()
-
-            addWidget(getNameLabel(strings[0]))
-
-            strings -= strings[0]
-
-            strings.forEach {
-                addWidget(QLabel(it).apply {
-                    styleSheet = "border: none;"
-                })
-            }
+            labels.forEach { addWidget(it) }
         })
     }
 
-    open fun getNameLabel(text: String): QLabel = QLabel(text).apply {
+    private fun getLabels(strings: List<String>): List<QLabel> =
+        mutableListOf(getNameLabel(strings[0])) +
+                strings.toMutableList().apply { removeFirst() }.map { str -> QLabel(str).apply { styleSheet = "border: none;" } }
+
+    private fun getNameLabel(text: String): QLabel = QLabel(text).apply {
         styleSheet = "border: none;"
         styleSheet += "font-size: 17px;"
     }
