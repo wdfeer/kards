@@ -15,7 +15,7 @@ data class ServerState(
     val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
     val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(7).toMutableList(), Hand.getRandom(7).toMutableList())
 ) {
-    private var playing = 0// TODO: REVERT THIS Random.nextInt(2)
+    private var playing = Random.nextInt(2)
     private fun flipWhoPlaying() { playing = 1 - playing }
 
     init {
