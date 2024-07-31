@@ -2,16 +2,16 @@ package org.wdfeer.kards.qt.widget.menu
 
 import io.qt.widgets.*
 import kotlinx.coroutines.cancel
+import org.wdfeer.kards.FontLoader
 import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
 import org.wdfeer.kards.common.server.ai.AI
 import org.wdfeer.kards.common.server.ai.AiDifficulty
-import org.wdfeer.kards.qt.fontFamily
 import org.wdfeer.kards.qt.widget.game.GameWindow
 
 class MenuWindow : QWidget() {
     init {
-        styleSheet = "font-family: $fontFamily;"
+        styleSheet = "font-family: ${FontLoader.fontFamily};"
 
         windowTitle = "Kards"
         setMinimumSize(200, 200)
