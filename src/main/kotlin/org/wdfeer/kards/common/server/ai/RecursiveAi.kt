@@ -3,7 +3,7 @@ package org.wdfeer.kards.common.server.ai
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.common.server.ServerState
 
-internal class RecursiveAi : AiAlgorithm { // TODO: Make it not crash the game for some reason
+internal class RecursiveAi(private val depth: Int) : AiAlgorithm {
     private fun getStatePostPlay(present: SimpleState, player: Int, cardIndex: Int) =
         SimpleState(
             present.fields.apply { simulateBoardState(this, player, present.hands[player][cardIndex]) },
@@ -24,8 +24,8 @@ internal class RecursiveAi : AiAlgorithm { // TODO: Make it not crash the game f
 
         return if (depth > 1 && closeFutures.isNotEmpty()) {
             closeFutures.flatMap { futureState ->
-                val handsSize = futureState.hands[player].size
-                (0 until handsSize).flatMap { index ->
+                val handSize = futureState.hands[player].size
+                (0 until handSize).flatMap { index ->
                     simulateFarFutures(futureState, player, index, depth - 1)
                 }
             }
@@ -40,7 +40,7 @@ internal class RecursiveAi : AiAlgorithm { // TODO: Make it not crash the game f
             simpleState,
             player,
             simpleState.hands[player].indexOf(cardToPlay),
-            10
+            depth
         ).maxOfOrNull { evaluateBoardState(it.fields, player) } ?: 0
     }
 }
