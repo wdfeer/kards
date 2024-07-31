@@ -3,7 +3,7 @@ package org.wdfeer.kards.qt.widget.game
 import io.qt.core.QTimer
 import io.qt.widgets.QApplication
 import io.qt.widgets.QMessageBox
-import org.wdfeer.kards.common.Logger
+import org.wdfeer.kards.common.Logger.info
 import org.wdfeer.kards.common.client.Outcome
 
 class OutcomeMessage(outcome: Outcome, diff: Int) : QMessageBox() {
@@ -24,7 +24,7 @@ class OutcomeMessage(outcome: Outcome, diff: Int) : QMessageBox() {
             Outcome.Draw -> "The game ends in a tie."
         }
 
-        Logger.info("Outcome $outcome reached. Game quitting in $quitDelaySeconds seconds.")
+        info("$outcome reached. Quitting in $quitDelaySeconds seconds.")
 
         quitTimer.start(quitDelaySeconds * 1000)
 
