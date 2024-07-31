@@ -1,7 +1,6 @@
 package org.wdfeer.kards.common.server.ai
 
-import org.wdfeer.kards.common.Logger.info
-import org.wdfeer.kards.common.Logger.warn
+import org.wdfeer.kards.common.Logger.logTime
 import org.wdfeer.kards.common.server.ServerState
 
 object AI {
@@ -19,27 +18,15 @@ object AI {
 
     fun chooseCardToPlay(state: ServerState, player: Int): Int {
         var cardIndex: Int = -1
-        logTime {
-            val values = state.hands[player].map { algorithm.evaluate(state, it, player) }
+        logTime(algorithm, {"Total evaluation ET = $it ms"}) {
+            val values = state.hands[player].mapIndexed {i, card ->
+                logTime(algorithm, {"Card #$i evaluation ET = $it ms"}) {
+                    algorithm.evaluate(state, card, player)
+                }
+            }
             cardIndex = values.indexOf(values.max())
         }
 
         return cardIndex
-    }
-
-    private fun logTime(function: () -> Unit) {
-        val startTime = System.currentTimeMillis()
-
-        function()
-
-        val endTime = System.currentTimeMillis()
-        val elapsedTime = endTime - startTime
-
-        val message = "Evaluation ET = $elapsedTime ms"
-
-        if (elapsedTime > 1000)
-            algorithm.warn(message)
-        else
-            algorithm.info(message)
     }
 }
