@@ -1,4 +1,4 @@
-package org.wdfeer.kards.qt.widget.menu
+package org.wdfeer.kards.qt.widget.menu.sp
 
 import io.qt.widgets.QComboBox
 import org.wdfeer.kards.common.server.ai.AI

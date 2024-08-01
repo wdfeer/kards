@@ -1,14 +1,12 @@
 package org.wdfeer.kards.qt.widget.menu
 
-import io.qt.widgets.*
-import kotlinx.coroutines.cancel
+import io.qt.widgets.QStackedLayout
+import io.qt.widgets.QTabWidget
+import io.qt.widgets.QWidget
 import org.wdfeer.kards.common.Logger.info
 import org.wdfeer.kards.qt.FontLoader
-import org.wdfeer.kards.common.server.ServerCoroutine
-import org.wdfeer.kards.common.server.ServerState
-import org.wdfeer.kards.common.server.ai.AI
-import org.wdfeer.kards.common.server.ai.AiDifficulty
-import org.wdfeer.kards.qt.widget.game.GameWindow
+import org.wdfeer.kards.qt.widget.menu.mp.MultiplayerMenu
+import org.wdfeer.kards.qt.widget.menu.sp.SingleplayerMenu
 
 class MenuWindow : QWidget() {
     init {
@@ -17,31 +15,15 @@ class MenuWindow : QWidget() {
         styleSheet = "font-family: ${FontLoader.fontFamily};"
 
         windowTitle = "Kards"
-        setMinimumSize(200, 200)
+        setMinimumSize(260, 240)
 
-        setLayout(QVBoxLayout().apply {
-            addWidget(QLabel("Choose Difficulty:"))
-            addWidget(DifficultyPicker(::changeDifficulty))
-
-            addSpacerItem(QSpacerItem(0, 70))
-            addWidget(PlayButton(::startGame))
+        setLayout(QStackedLayout().apply {
+            addWidget(QTabWidget().apply {
+                addTab(SingleplayerMenu(), "Singleplayer")
+                addTab(MultiplayerMenu(), "Multiplayer")
+            })
         })
 
         show()
-    }
-
-    private fun changeDifficulty(difficulty: AiDifficulty) {
-        AI.difficulty = difficulty
-    }
-
-    private fun startGame() {
-        close()
-
-        val state = ServerState()
-        GameWindow(state.createClientState(1))
-
-        QApplication.instance()?.aboutToQuit?.connect(fun () {
-            ServerCoroutine.scope.cancel("Application quitting")
-        })
     }
 }
