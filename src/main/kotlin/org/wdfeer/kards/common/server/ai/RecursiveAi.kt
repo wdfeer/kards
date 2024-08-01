@@ -3,6 +3,7 @@ package org.wdfeer.kards.common.server.ai
 import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.common.server.ServerState
 
+// TODO: Fix crashes again
 internal class RecursiveAi(private val depth: Int) : AiAlgorithm {
     private fun getStatePostPlay(present: SimpleState, player: Int, cardIndex: Int) =
         SimpleState(
