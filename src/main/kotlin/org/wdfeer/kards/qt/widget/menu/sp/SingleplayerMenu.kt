@@ -10,10 +10,15 @@ import org.wdfeer.kards.qt.widget.game.GameWindow
 import org.wdfeer.kards.qt.widget.menu.Button
 
 class SingleplayerMenu : QWidget() {
+    private val cardCountPicker = CardCountPicker()
+
     init {
         setLayout(QVBoxLayout().apply {
             addWidget(QLabel("Choose Difficulty:"))
             addWidget(DifficultyPicker(::changeDifficulty))
+
+            addWidget(QLabel("Card Count:"))
+            addWidget(cardCountPicker)
 
             addSpacerItem(QSpacerItem(0, 70))
             addWidget(Button("Play", ::startGame))
@@ -27,7 +32,7 @@ class SingleplayerMenu : QWidget() {
     private fun startGame() {
         close()
 
-        val state = ServerState()
+        val state = ServerState(cardCountPicker.value)
         GameWindow(state.createClientState(1))
 
         QApplication.instance()?.aboutToQuit?.connect(fun () {

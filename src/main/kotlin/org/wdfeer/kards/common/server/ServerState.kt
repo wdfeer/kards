@@ -11,10 +11,12 @@ import org.wdfeer.kards.common.client.Opponent
 import org.wdfeer.kards.common.server.ai.AI
 import kotlin.random.Random
 
-data class ServerState(
-    val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf()),
-    val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(7).toMutableList(), Hand.getRandom(7).toMutableList())
+class ServerState(
+    cardCount: Int = 7
 ) {
+    val fields: List<MutableList<MutableCard>> = listOf(mutableListOf(), mutableListOf())
+    val hands: List<MutableList<CardType>> = listOf(Hand.getRandom(cardCount).toMutableList(), Hand.getRandom(cardCount).toMutableList())
+
     private var playing = Random.nextInt(2)
     private fun flipWhoPlaying() { playing = 1 - playing }
 
