@@ -30,7 +30,7 @@ class SingleplayerMenu : QWidget() {
     }
 
     private fun startGame() {
-        close()
+        window()?.close() ?: error("Failed to close the window!")
 
         val state = ServerState(cardCountPicker.value)
         GameWindow(state.createClientState(1))
