@@ -6,10 +6,11 @@ import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
 import org.wdfeer.kards.common.server.ai.AI
 import org.wdfeer.kards.common.server.ai.AiDifficulty
+import org.wdfeer.kards.qt.widget.abstract.Menu
 import org.wdfeer.kards.qt.widget.game.GameWindow
 import org.wdfeer.kards.qt.widget.menu.Button
 
-class SingleplayerMenu : QWidget() {
+class SingleplayerMenu : Menu() {
     private val cardCountPicker = CardCountPicker()
 
     init {
