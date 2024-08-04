@@ -3,7 +3,7 @@ package org.wdfeer.kards.common.server.ai
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.runBlocking
-import org.wdfeer.kards.common.Logger.logTime
+import org.wdfeer.kards.common.Logger.logTimeIf
 import org.wdfeer.kards.common.server.ServerCoroutine
 import org.wdfeer.kards.common.server.ServerState
 
@@ -13,6 +13,9 @@ object AI {
         set(value) { algorithm = value.algorithm }
 
     private lateinit var algorithm: AiAlgorithm
+
+
+    var shouldLogTime: Boolean = false
 
 
     init {
@@ -29,10 +32,10 @@ object AI {
 
         val results: Array<Int> = Array(hand.size) { 0 }
 
-        logTime(algorithm, {"Total evaluation ET = $it ms"}) {
+        logTimeIf(shouldLogTime, algorithm, {"Total evaluation ET = $it ms"}) {
             hand.forEachIndexed { index, card ->
                 jobs.add(ServerCoroutine.launch {
-                    logTime(algorithm, {"Card #$index evaluation ET = $it ms"}) {
+                    logTimeIf(shouldLogTime, algorithm, {"Card #$index evaluation ET = $it ms"}) {
                         results[index] = algorithm.evaluate(state, card, player)
                     }
                 })

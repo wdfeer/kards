@@ -25,6 +25,9 @@ object Logger { // TODO: save the stdout to a log file
         return result
     }
 
+    fun <T : Any> logTimeIf(condition: Boolean, caller: Any, getMessage: (ms: Long) -> String, function: () -> T): T =
+        if (condition) logTime(caller, getMessage, function) else function()
+
     fun Any.info(str: String) = println("[$time][INFO] ${getCallerString(this)}: $str")
     fun Any.warn(str: String) = printlnColor("[$time][WARN] ${getCallerString(this)}: $str", Color.YELLOW)
     fun Any.error(str: String) = printlnColor("[$time][ERROR] ${getCallerString(this)}: $str", Color.RED)
