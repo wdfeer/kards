@@ -11,19 +11,18 @@ import org.wdfeer.kards.qt.widget.game.GameWindow
 import org.wdfeer.kards.qt.widget.menu.Button
 
 class SingleplayerMenu : Menu() {
-    private val cardCountPicker = CardCountPicker()
+    private lateinit var cardCountPicker: CardCountPicker
 
-    init {
-        setLayout(QVBoxLayout().apply {
-            addWidget(QLabel("Choose Difficulty:"))
-            addWidget(DifficultyPicker(::changeDifficulty))
+    override fun QVBoxLayout.initLayout() {
+        addWidget(QLabel("Choose Difficulty:"))
+        addWidget(DifficultyPicker(::changeDifficulty))
 
-            addWidget(QLabel("Card Count:"))
-            addWidget(cardCountPicker)
+        addWidget(QLabel("Card Count:"))
+        cardCountPicker = CardCountPicker()
+        addWidget(cardCountPicker)
 
-            addSpacerItem(QSpacerItem(0, 70))
-            addWidget(Button("Play", ::startGame))
-        })
+        addSpacerItem(QSpacerItem(0, 70))
+        addWidget(Button("Play", ::startGame))
     }
 
     private fun changeDifficulty(difficulty: AiDifficulty) {

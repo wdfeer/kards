@@ -5,9 +5,7 @@ import io.qt.widgets.QVBoxLayout
 import org.wdfeer.kards.qt.widget.abstract.Menu
 
 class MultiplayerMenu : Menu() {
-    init {
-        setLayout(QVBoxLayout().apply {
-            QLabel("Not Implemented!")
-        })
+    override fun QVBoxLayout.initLayout() {
+        addWidget(QLabel("Not Implemented!"))
     }
 }
