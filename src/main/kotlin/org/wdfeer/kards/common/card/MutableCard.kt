@@ -1,7 +1,15 @@
 package org.wdfeer.kards.common.card
 
-data class MutableCard(val type: Card, override var hp: Int, override var dmg: Int, override var score: Int): Card {
-    constructor(type: Card) : this(type, type.hp, type.dmg, type.score)
+import kotlin.random.Random
+
+data class MutableCard(
+    val type: Card,
+    override var hp: Int,
+    override var dmg: Int,
+    override var score: Int,
+    override val id: Long
+): FieldCard {
+    constructor(type: Card) : this(type, type.hp, type.dmg, type.score, Random.nextLong())
 
     override val name: String
         get() = type.name

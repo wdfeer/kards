@@ -1,11 +1,9 @@
 package org.wdfeer.kards.common.client
 
-import org.wdfeer.kards.common.card.Card
-import org.wdfeer.kards.common.card.DeltaCard
+import org.wdfeer.kards.common.card.FieldCard
 
 data class ClientState(
-    val fields: List<List<Card>>,
-    val statChanges: Map<Long, DeltaCard>,
+    val fields: List<List<FieldCard>>,
     val me: Me,
     val opponent: Opponent,
     val accessor: ServerAccessor,

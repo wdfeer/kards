@@ -5,7 +5,6 @@ interface Card {
     val hp: Int
     val dmg: Int
     val score: Int
-    val id: Long
 
     fun getSpecial(): SpecialAbility? = null
 

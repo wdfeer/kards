@@ -5,12 +5,16 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
+import org.wdfeer.kards.common.card.DeltaCard
 import org.wdfeer.kards.common.card.Field
+import org.wdfeer.kards.common.client.ClientApp
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.Outcome
 import org.wdfeer.kards.qt.util.Input.getDigitPressed
 
-abstract class GameWidget(private var state: ClientState) : QWidget() {
+open class GameWidget(override var state: ClientState) : QWidget(), ClientApp {
+    override var oldState: ClientState? = null
+
     private val mainLayout = createLayout()
     private fun createLayout(): QVBoxLayout = QVBoxLayout(this)
 
@@ -20,7 +24,7 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
         set(value) { widgets[1] = value }
 
     init {
-        createWidgets()
+        redrawState()
         setLayout(mainLayout)
     }
 
@@ -33,16 +37,18 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
 
     private var outcomeMessage: OutcomeMessage? = null
 
-    private fun updateState() {
-        state = state.accessor.updateState(state).first
-
+    final override fun redrawState() {
         widgets.forEach { it?.setParent(null) }
         createWidgets()
 
-        if (outcomeMessage == null && state.me.hand.isEmpty() && state.opponent.handSize == 0) {
+        if (outcomeMessage == null && hasGameEnded()) {
             val scoreDiff = Field.getScoreDiff(state.fields)
             outcomeMessage = OutcomeMessage(Outcome.getOutcome(scoreDiff), scoreDiff)
         }
+    }
+
+    override fun redrawDeltas(deltas: Map<Long, List<DeltaCard>>) {
+        TODO("Not yet implemented")
     }
 
     private fun createWidgets() {
@@ -55,19 +61,6 @@ abstract class GameWidget(private var state: ClientState) : QWidget() {
             widgets[i] = widget
             mainLayout.addWidget(widget)
         }
-    }
-
-    fun canPlayCard(card: Int): Boolean = state.me.playing && state.me.hand.size > card
-
-    /** @throws IndexOutOfBoundsException
-     * @throws IllegalStateException */
-    fun playCard(card: Int) {
-        if (!state.me.playing) throw IllegalStateException("The player may not play a card right now!")
-        if (state.me.hand.size <= card) throw IndexOutOfBoundsException("Card $card not found! Hand size: ${state.me.hand.size}")
-
-        state.accessor.playCard(card)
-
-        updateState()
     }
 
     override fun keyPressEvent(event: QKeyEvent?) {
