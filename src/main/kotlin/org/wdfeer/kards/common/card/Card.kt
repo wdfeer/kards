@@ -8,6 +8,7 @@ interface Card {
 
     fun getSpecial(): SpecialAbility? = null
 
-    fun statStrings(): List<String> = CardStatType.entries.map { it.getString(it.get(this)) }
-    fun displayString(): String = "$name\n" + statStrings().joinToString("\n")
+    private fun statStrings(): Map<CardStatType, String> = CardStatType.entries.associateWith { it.getString(it.get(this)) }
+    fun getStringsByStat(): Map<CardStatType?, String> = mapOf(Pair(null, "$name\n")) + statStrings()
+    fun getStrings(): List<String> = getStringsByStat().values.toList()
 }

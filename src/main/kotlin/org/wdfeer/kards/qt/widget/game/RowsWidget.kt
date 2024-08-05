@@ -3,7 +3,6 @@ package org.wdfeer.kards.qt.widget.game
 import io.qt.widgets.QHBoxLayout
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
-import org.wdfeer.kards.common.card.Card
 import org.wdfeer.kards.common.card.DeltaCard
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.qt.util.QSpacerItem
@@ -23,7 +22,7 @@ class RowsWidget(private val state: ClientState, private val deltas: Map<Long, D
                 add(
                     FieldWrapper(state.fields[i]
                         .associateWith { card -> deltas[card.id] ?: DeltaCard() }
-                        .mapKeys { it as Card })
+                        .toMap())
                 )
             }
 

@@ -4,30 +4,29 @@ import io.qt.core.QSize
 import io.qt.widgets.QFrame
 import io.qt.widgets.QLabel
 import io.qt.widgets.QVBoxLayout
-import org.wdfeer.kards.common.card.Card
-import org.wdfeer.kards.common.card.DeltaCard
 import org.wdfeer.kards.qt.util.SizePolicies
 
-// TODO: apply the "delta" parameter visually
-abstract class CardWidget(card: Card, delta: DeltaCard? = null) : QFrame() {
-    protected val labels: List<QLabel> = getLabels(card.displayString().split("\n"))
+abstract class CardWidget : QFrame() {
+    abstract fun getStyledStrings(): List<Pair<String, String>>
+    open fun getFirstStyle(): String = "font-size: 17px;"
 
-    init {
+    protected fun build() {
         sizePolicy = SizePolicies.FixMin
         minimumSize = QSize(85, 120)
         styleSheet = "border: 1px solid black;"
 
         setLayout(QVBoxLayout().apply {
-            labels.forEach { addWidget(it) }
+            createLabels().forEach { addWidget(it) }
         })
     }
 
-    private fun getLabels(strings: List<String>): List<QLabel> =
-        mutableListOf(getNameLabel(strings[0])) +
-                strings.toMutableList().apply { removeFirst() }.map { str -> QLabel(str).apply { styleSheet = "border: none;" } }
-
-    private fun getNameLabel(text: String): QLabel = QLabel(text).apply {
-        styleSheet = "border: none;"
-        styleSheet += "font-size: 17px;"
+    private fun createLabels() = getStyledStrings().let { pairs ->
+        getStyledLabels(pairs.map { it.first }, pairs.map { it.second })
     }
+
+    private fun getStyledLabels(strings: List<String>, styles: List<String>): List<QLabel> =
+        strings.mapIndexed { i, str -> QLabel(str).apply {
+                    styleSheet = "border: none;" + styles[i] + if (i == 0) getFirstStyle() else ""
+                }
+        }
 }

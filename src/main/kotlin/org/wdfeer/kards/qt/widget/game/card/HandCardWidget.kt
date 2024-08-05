@@ -5,9 +5,16 @@ import io.qt.gui.QEnterEvent
 import io.qt.gui.QMouseEvent
 import org.wdfeer.kards.common.card.Card
 
-class HandCardWidget(card: Card, index: Int, private val onClicked: () -> Unit) : CardWidget(card) {
+class HandCardWidget(private val card: Card, private val index: Int, private val onClicked: () -> Unit) : CardWidget() {
     init {
-        labels[0].text += " [${index + 1}]"
+        build()
+    }
+
+    override fun getStyledStrings(): List<Pair<String, String>> {
+        val strings = card.getStringsByStat().map { it.value }.toMutableList()
+        strings[0] += " [${index + 1}]" // TODO: make this optional
+
+        return strings.map { Pair(it, "") }
     }
 
     override fun mousePressEvent(event: QMouseEvent?) { onClicked.invoke() }
