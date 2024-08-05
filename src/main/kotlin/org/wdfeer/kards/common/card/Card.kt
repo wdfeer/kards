@@ -8,5 +8,6 @@ interface Card {
 
     fun getSpecial(): SpecialAbility? = null
 
-    fun displayString(): String = "$name\n$hp \udb80\uded1\n$dmg \uDB81\uDCE5\n" + "\udb81\udccf".repeat(score)
+    fun statStrings(): List<String> = CardStatType.entries.map { it.getString(it.get(this)) }
+    fun displayString(): String = "$name\n" + statStrings().joinToString("\n")
 }

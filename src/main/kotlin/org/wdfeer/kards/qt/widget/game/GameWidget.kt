@@ -5,7 +5,6 @@ import io.qt.gui.QKeyEvent
 import io.qt.widgets.QApplication
 import io.qt.widgets.QVBoxLayout
 import io.qt.widgets.QWidget
-import org.wdfeer.kards.common.card.DeltaCard
 import org.wdfeer.kards.common.card.Field
 import org.wdfeer.kards.common.client.ClientApp
 import org.wdfeer.kards.common.client.ClientState
@@ -26,13 +25,13 @@ open class GameWidget(override var state: ClientState) : QWidget(), ClientApp {
     init {
         redrawState()
         setLayout(mainLayout)
-    }
 
-    private val updateTimer = QTimer().apply {
-        timeout.connect(::updateState)
-        start(1000)
+        QTimer().apply {
+            timeout.connect(::updateState)
+            start(1000)
 
-        QApplication.instance()?.aboutToQuit?.connect(this::stop)
+            QApplication.instance()?.aboutToQuit?.connect(this::stop)
+        }
     }
 
     private var outcomeMessage: OutcomeMessage? = null
@@ -47,12 +46,8 @@ open class GameWidget(override var state: ClientState) : QWidget(), ClientApp {
         }
     }
 
-    override fun redrawDeltas(deltas: Map<Long, List<DeltaCard>>) {
-        TODO("Not yet implemented")
-    }
-
     private fun createWidgets() {
-        rows = RowsWidget(state)
+        rows = RowsWidget(state, getDeltas())
         listOf(
             PlayerWidget(state.opponent.name, state.opponent.playing, state.opponent.handSize),
             rows!!,

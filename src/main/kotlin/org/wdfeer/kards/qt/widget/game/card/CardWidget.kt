@@ -5,9 +5,11 @@ import io.qt.widgets.QFrame
 import io.qt.widgets.QLabel
 import io.qt.widgets.QVBoxLayout
 import org.wdfeer.kards.common.card.Card
+import org.wdfeer.kards.common.card.DeltaCard
 import org.wdfeer.kards.qt.util.SizePolicies
 
-abstract class CardWidget(card: Card) : QFrame() {
+// TODO: apply the "delta" parameter visually
+abstract class CardWidget(card: Card, delta: DeltaCard? = null) : QFrame() {
     protected val labels: List<QLabel> = getLabels(card.displayString().split("\n"))
 
     init {

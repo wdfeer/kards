@@ -7,16 +7,15 @@ interface ClientApp {
     var oldState: ClientState?
     var state: ClientState
     fun redrawState()
-    fun redrawDeltas(deltas: Map<Long, List<DeltaCard>>)
 
 
     fun updateState() {
         oldState = state
         state = state.accessor.updateState(state).first
         redrawState()
-        redrawDeltas(getDeltas())
     }
-    private fun getDeltas(): Map<Long, List<DeltaCard>> {
+
+    fun getDeltas(): Map<Long, DeltaCard> {
         if (oldState == null || oldState!! == state) return emptyMap()
 
         val oldCards: Map<Long, Card> = oldState!!.fields.flatten().associateBy { it.id }
@@ -25,7 +24,7 @@ interface ClientApp {
         return newCards.filter { oldCards.containsKey(it.key) }.mapValues {
             val old = oldCards[it.key]!!
 
-            DeltaCard.create(it.value, old)
+            DeltaCard(it.value, old)
         }
     }
 
