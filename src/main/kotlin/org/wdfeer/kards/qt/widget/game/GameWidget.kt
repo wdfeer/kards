@@ -10,6 +10,7 @@ import org.wdfeer.kards.common.client.ClientApp
 import org.wdfeer.kards.common.client.ClientState
 import org.wdfeer.kards.common.client.Outcome
 import org.wdfeer.kards.qt.util.Input.getDigitPressed
+import org.wdfeer.kards.qt.widget.menu.options.UpdateIntervalPicker
 
 open class GameWidget(override var state: ClientState) : QWidget(), ClientApp {
     override var oldState: ClientState? = null
@@ -28,7 +29,7 @@ open class GameWidget(override var state: ClientState) : QWidget(), ClientApp {
 
         QTimer().apply {
             timeout.connect(::updateState)
-            start(1000)
+            start((UpdateIntervalPicker.stateUpdateInterval * 1000).toInt())
 
             QApplication.instance()?.aboutToQuit?.connect(this::stop)
         }

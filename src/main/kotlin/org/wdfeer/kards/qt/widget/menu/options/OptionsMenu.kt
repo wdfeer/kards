@@ -6,5 +6,6 @@ import org.wdfeer.kards.qt.widget.abstract.Menu
 class OptionsMenu : Menu() {
     override fun QVBoxLayout.initLayout() {
         addWidget(LogAiTimeCheckBox())
+        addWidget(UpdateIntervalPicker())
     }
 }
